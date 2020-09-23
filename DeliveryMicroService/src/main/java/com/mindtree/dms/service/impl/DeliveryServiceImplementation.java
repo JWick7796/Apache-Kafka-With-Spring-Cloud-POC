@@ -13,6 +13,7 @@ import com.mindtree.dms.entity.DeliveryAgent;
 import com.mindtree.dms.entity.DeliveryDetails;
 import com.mindtree.dms.repository.DeliveryAgentRepository;
 import com.mindtree.dms.repository.DeliveryDetailsRepository;
+import com.mindtree.dms.service.DeliveryService;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,7 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.transaction.Transactional;
 
 @Service
-public class DeliveryServiceImplementation {
+public class DeliveryServiceImplementation implements DeliveryService {
 
 	@Autowired
 	DeliveryAgentRepository agentRepository;
@@ -28,6 +29,7 @@ public class DeliveryServiceImplementation {
 	@Autowired
 	DeliveryDetailsRepository detailsRepository;
 
+	@Override
 	@KafkaListener(topics = "order-delivery-topic", groupId = "json_group", containerFactory = "userKafkaListenerFactory")
 	@Transactional
 	public void getOrderDetails(@Payload OrderKafkaRequestDTO order, @Headers MessageHeaders headers) {
